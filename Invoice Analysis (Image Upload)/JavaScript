@@ -1,0 +1,15 @@
+function uploadInvoice() {
+  const file = document.getElementById('invoice-image').files[0];
+  const formData = new FormData();
+  formData.append('invoice', file);
+
+  fetch('/api/invoice-analyze', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('product-name').value = data.name;
+    document.getElementById('base-price').value = data.price;
+  });
+}
