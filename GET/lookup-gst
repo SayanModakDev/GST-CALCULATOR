@@ -1,0 +1,5 @@
+@app.route('/lookup-gst')
+def lookup_gst():
+    query = request.args.get('query')
+    matches = gst_model.predict(query)
+    return jsonify(matches)  # [{name, rate}]
