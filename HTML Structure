@@ -1,0 +1,10 @@
+<div id="app">
+  <h1>GST Calculator</h1>
+  <form id="gst-form">
+    <input type="text" id="product-name" placeholder="Product/Service Name" autocomplete="off" />
+    <ul id="suggestions"></ul>
+    <input type="number" id="base-price" placeholder="Base Price (₹)" />
+    <button type="submit">Calculate GST</button>
+  </form>
+  <div id="result"></div>
+</div>
