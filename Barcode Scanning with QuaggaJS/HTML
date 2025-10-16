@@ -1,0 +1,4 @@
+<div id="barcode-scanner">
+  <button onclick="startScanner()">Scan Barcode</button>
+  <div id="scanner"></div>
+</div>
