@@ -1,0 +1,33 @@
+document.getElementById('product-name').addEventListener('input', async (e) => {
+  const query = e.target.value;
+  if (query.length < 2) return;
+
+  const res = await fetch(`/api/gst-category?query=${encodeURIComponent(query)}`);
+  const data = await res.json();
+
+  const suggestions = document.getElementById('suggestions');
+  suggestions.innerHTML = '';
+  data.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.name} (${item.rate}%)`;
+    li.onclick = () => {
+      e.target.value = item.name;
+      suggestions.innerHTML = '';
+    };
+    suggestions.appendChild(li);
+  });
+});
+
+document.getElementById('gst-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('product-name').value;
+  const price = parseFloat(document.getElementById('base-price').value);
+
+  const res = await fetch(`/api/gst-calculate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, price })
+  });
+  const result = await res.json();
+  document.getElementById('result').textContent = `GST: ₹${result.gst} | Total: ₹${result.total}`;
+});
