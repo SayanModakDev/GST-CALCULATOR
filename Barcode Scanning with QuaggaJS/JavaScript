@@ -1,0 +1,26 @@
+function startScanner() {
+  Quagga.init({
+    inputStream: {
+      name: "Live",
+      type: "LiveStream",
+      target: document.querySelector('#scanner'),
+    },
+    decoder: {
+      readers: ["ean_reader", "upc_reader"]
+    }
+  }, function(err) {
+    if (err) return console.error(err);
+    Quagga.start();
+  });
+
+  Quagga.onDetected(data => {
+    const code = data.codeResult.code;
+    fetch(`/api/barcode-lookup?code=${code}`)
+      .then(res => res.json())
+      .then(info => {
+        document.getElementById('product-name').value = info.name;
+        document.getElementById('base-price').value = info.price;
+        Quagga.stop();
+      });
+  });
+}
