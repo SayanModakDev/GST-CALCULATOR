@@ -1,0 +1,25 @@
+@app.route('/calculate-gst', methods=['POST'])
+def calculate_gst():
+    data = request.json
+    name = data['name']
+    price = float(data['price'])
+    txn_type = data['transaction_type']  # 'intra' or 'inter'
+
+    gst_rate = lookup_gst_rate(name)
+    gst_amount = price * gst_rate / 100
+
+    if txn_type == 'intra':
+        cgst = sgst = gst_amount / 2
+        igst = 0
+    else:
+        cgst = sgst = 0
+        igst = gst_amount
+
+    total = price + gst_amount
+    return jsonify({
+        'gst': round(gst_amount, 2),
+        'total': round(total, 2),
+        'cgst': round(cgst, 2),
+        'sgst': round(sgst, 2),
+        'igst': round(igst, 2)
+    })
