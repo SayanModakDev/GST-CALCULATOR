@@ -1,0 +1,6 @@
+@app.route('/scan-barcode', methods=['POST'])
+def scan_barcode():
+    data = request.json
+    code = data['barcode']
+    product = db.lookup_by_barcode(code)
+    return jsonify(product)  # {name, price, gst_rate}
