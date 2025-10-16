@@ -1,0 +1,4 @@
+<div id="invoice-upload">
+  <input type="file" id="invoice-image" accept="image/*" />
+  <button onclick="uploadInvoice()">Analyze Invoice</button>
+</div>
