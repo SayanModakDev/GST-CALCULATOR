@@ -1,0 +1,11 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.neighbors import NearestNeighbors
+
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(product_names)
+model = NearestNeighbors(n_neighbors=3).fit(X)
+
+def predict_gst(query):
+    vec = vectorizer.transform([query])
+    indices = model.kneighbors(vec, return_distance=False)[0]
+    return [gst_data[i] for i in indices]
