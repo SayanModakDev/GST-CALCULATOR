@@ -1,0 +1,13 @@
+def extract_invoice_data(text):
+    lines = text.split('\n')
+    result = {}
+    for line in lines:
+        if 'GST' in line:
+            result['gst'] = extract_amount(line)
+        elif 'Total' in line:
+            result['total'] = extract_amount(line)
+        elif 'CGST' in line:
+            result['cgst'] = extract_amount(line)
+        elif 'SGST' in line:
+            result['sgst'] = extract_amount(line)
+    return result
